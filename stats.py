@@ -1,5 +1,5 @@
-import boto3
 from datetime import timedelta, datetime
+import boto3
 
 
 s3 = boto3.resource('s3')
@@ -7,7 +7,7 @@ cloudwatch = boto3.client('cloudwatch')
 
 
 def get_buckets(file):
-    with open(file, 'r') as f:
+    with open(file, 'r', encoding='utf8') as f:
         bucket_names = f.read().splitlines(False)
     
     buckets = s3.buckets.all()
@@ -55,7 +55,7 @@ def tocsv(file, items):
     file.write(','.join([str(i) for i in items]) + '\n')
 
 def generate_stats_csv(buckets, file):
-    with open(file, 'w') as f:
+    with open(file, 'w', encoding='utf8') as f:
         tocsv(f, [
             'Bucket Name',
             'Number of Objects',
