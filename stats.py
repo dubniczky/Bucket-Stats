@@ -1,3 +1,4 @@
+import sys
 from datetime import timedelta, datetime
 import boto3
 
@@ -114,7 +115,15 @@ def generate_stats_csv(buckets, file):
 
 
 if __name__ == '__main__':
-    buckets = get_buckets('buckets.txt')
-    generate_stats_csv(buckets, 'stats.csv')
+    if len(sys.argv) < 3:
+        print('Usage: python stats.py <bucket-list> <output-csv>')
+        sys.exit(1)
     
-    print('Generated stats for', len(buckets), 'buckets.')  
+    buckets_file = sys.argv[1]    
+    target_file = sys.argv[2]
+    
+    buckets = get_buckets(buckets_file)
+    generate_stats_csv(buckets, target_file)
+    
+    print('Generated stats for', len(buckets), 'buckets.')
+    
